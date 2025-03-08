@@ -226,20 +226,26 @@ def login_user(form_data:OAuth2PasswordRequestForm =Depends()):
     return {"response": token_payload}
     
 #function to store chat message
-def store_advice_message(username: int, message: str, ticker: str):
+def store_advice_message(user_id: int, message: str, ticker: str):
     db = SessionLocal()
     try:
+        if not message.strip():  # Ensure message is not empty
+            print("Warning: Attempted to store an empty message.")
+            return  # Exit function without storing
+        
         # Create and add new chat entry
-        chat_entry = AdviseHistory(user_id=username, message=message, stock=ticker)
+        chat_entry = AdviseHistory(user_id=user_id, message=message, stock=ticker)
         db.add(chat_entry)
         db.commit()
-    
+        db.refresh(chat_entry)  # Ensure the object is fully committed
+
+          
     except Exception as e:
         db.rollback()  # Rollback transaction if there's an error
         print(f"Error storing advice message: {e}")
     
     finally:
-        db.close()  # Ensure session is always closed
+        db.close()  # Ensure session is always closed.
 
 """
 def store_advice_message(user_id: int, message:str, ticker:str):
@@ -264,10 +270,11 @@ def retrieve_previous_advice(user_id: int, ticker: str):
     try:
         # Check if the user has previous advice
         messages = db.query(AdviseHistory).filter(
-            (AdviseHistory.user_id == user_id) & (AdviseHistory.stock == ticker)
+            AdviseHistory.user_id == user_id,
+            AdviseHistory.stock == ticker
         ).order_by(AdviseHistory.id.asc()).all()
 
-        # Return empty response if no messages found
+        #Return empty response if no messages found
         if not messages:
             return {"response": ""}
 
@@ -282,7 +289,7 @@ def retrieve_previous_advice(user_id: int, ticker: str):
 
 
 # get AI expert advice
-def get_ai_advice(user_id:str, prompt:str,stock:str, query:str):
+def get_ai_advice(user_id:str |None, prompt:str,stock:str, query:str):
     """This function embed user query to get advice on particular stocks"""
     #for better optimized similarity search attach stock ticker to query
     new_query = query +' '+'?'+ stock
@@ -337,5 +344,5 @@ async def chat_text(request:Message):
     response = get_ai_advice(user_id=prompt_user["user_id"],prompt=prompt,
                              query=request.message, stock=request.stock)
     
-    store_advice_message(username=request.username, message=response["response"],ticker=request.stock)
+    store_advice_message(user_id=prompt_user["user_id"], message=response["response"],ticker=request.stock)
     return response

@@ -12,8 +12,6 @@ RUN python -c "import matplotlib.pyplot"
 COPY . /app
 
 # Document that the container listens on port 8080
-# EXPOSE 8080
 EXPOSE ${PORT}
 
-# CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
 CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT}"]
