@@ -1,18 +1,13 @@
-# Use a tiangolo base image that runs FastAPI on Uvicorn/Gunicorn
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9
+FROM python:3-alpine
 
-# Let the base image know our main file is `views.py`
-ENV MODULE_NAME=views
+# Create and change to the app directory.
+WORKDIR /app
 
-# Copy requirements and install
-COPY requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r /app/requirements.txt
+# Copy local code to the container image.
+COPY . .
 
-# Pre-build the matplotlib font cache
-RUN python -c "import matplotlib.pyplot"
+# Install project dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the code
-COPY . /app
-
-# Expose the port your app is listening on (e.g., 10000)
-EXPOSE 10000
+# Run the web service on container startup.
+CMD ["hypercorn", "views:app", "--bind", "::"]
