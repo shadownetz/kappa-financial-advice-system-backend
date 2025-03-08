@@ -1,5 +1,5 @@
 # Use a tiangolo base image that runs FastAPI on Uvicorn/Gunicorn
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.13.1
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.10
 
 # Copy requirements and install
 COPY requirements.txt /app/requirements.txt
