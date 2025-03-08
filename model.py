@@ -7,7 +7,8 @@ from sqlalchemy.exc import SQLAlchemyError
 
 #Database setup
 #DATABASE_URL=URL.create("sqlite",host="localhost",database="chat_history.db")
-DATABASE_URL="sqlite:////home/cyberjroid/Documents/Projects/CyberJroid/Tutorials/Divverse/Team Kappa/kappa-ai-finquiry-backend/chathistory.db"
+# DATABASE_URL="sqlite:////home/cyberjroid/Documents/Projects/CyberJroid/Tutorials/Divverse/Team Kappa/kappa-ai-finquiry-backend/chathistory.db"
+DATABASE_URL="sqlite:///chathistory.db"
 engine = create_engine(DATABASE_URL,connect_args={"check_same_thread": False})
 SessionLocal=sessionmaker(bind=engine, autoflush=False,autocommit=False)
 
