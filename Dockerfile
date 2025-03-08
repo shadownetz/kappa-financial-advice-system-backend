@@ -12,4 +12,4 @@ RUN python -c "import matplotlib.pyplot"
 # Copy the rest of the code
 COPY . /app
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "$PORT"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
