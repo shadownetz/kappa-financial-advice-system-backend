@@ -1,0 +1,12 @@
+bcrypt
+matplotlib
+fastapi
+pydantic
+langchain
+langchain_groq
+pinecone
+requests
+pandas
+langchain_text_splitters
+langchain_huggingface
+dotenv
