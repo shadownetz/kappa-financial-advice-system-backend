@@ -1,6 +1,5 @@
-# Use the Python 3 alpine official image
-# https://hub.docker.com/_/python
-FROM python:3-alpine
+# Use a tiangolo base image that runs FastAPI on Uvicorn/Gunicorn
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.10
 
 # Create and change to the app directory.
 WORKDIR /app
