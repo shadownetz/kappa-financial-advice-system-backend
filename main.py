@@ -33,6 +33,15 @@ RAPID_API_KEY= os.getenv("RAPID_API_KEY")
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 
 
+# Initialize FastAPI
+app = FastAPI(title="Kappa AI Finquiry Backend", version="0.1.0")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 headers_params={
     "headers" : {
@@ -69,15 +78,6 @@ sentiment_index = pc.Index("stock-sentiment-index")
 #Initialize HuggingFace Embeddings
 embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
-# Initialize FastAPI
-app = FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 # AI instruction template
 # Default initiate conversation
