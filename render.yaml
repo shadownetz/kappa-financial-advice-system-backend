@@ -1,5 +1,6 @@
 services:
-  - name: app
-    env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn views:app --host 0.0.0.0 --port 80
+  - name: myapp
+    type: web
+    env: docker
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
