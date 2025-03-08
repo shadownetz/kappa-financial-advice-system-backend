@@ -1,30 +1,26 @@
 import base64
 import os
 import io
-import bcrypt
 import datetime
-import matplotlib
-matplotlib.use('Agg')  # Use non-GUI backend
-import matplotlib.pyplot as plt
 import json
 from pathlib import Path
+
+import bcrypt
+import matplotlib
+import matplotlib.pyplot as plt
 from fastapi import FastAPI, HTTPException, Depends, WebSocket, WebSocketDisconnect, Response
 from pydantic import BaseModel
 from langchain.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-
 from pinecone import Pinecone, ServerlessSpec
-
 import requests
 import pandas as pd
-
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
-
-
 from dotenv import load_dotenv
+
 from model import *
 
 
@@ -34,6 +30,8 @@ load_dotenv(override=True)
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 RAPID_API_KEY= os.getenv("RAPID_API_KEY")
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
+
+matplotlib.use('Agg')  # Use non-GUI backend
 
 headers_params={
     "headers" : {

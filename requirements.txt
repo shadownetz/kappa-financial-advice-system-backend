@@ -10,3 +10,4 @@ pandas
 langchain_text_splitters
 langchain_huggingface
 dotenv
+fastapi[standard] 
